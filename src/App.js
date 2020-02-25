@@ -1,50 +1,44 @@
-import React, {useEffect} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import React, {useReducer} from 'react';
 import Alert from 'react-s-alert';
 import AlertTemplate from './components/core/alert-template';
 import './styles/main.scss';
-import {BACKEND_URL} from './constants';
-import AXIOS from './services/helpers/axios';
 import useDeepCompareEffect from 'use-deep-compare-effect';
-import {getTodosListRequest, setUserCredentials} from './redux/actions';
+import {todoReducer} from './reducers';
+import GlobalContextProvider from './services/contexts/global';
 import TodoSection from './components/todos-section';
 import 'react-s-alert/dist/s-alert-default.css';
+import {useCredentials} from './services/custom-hooks';
+import AXIOS from './services/helpers/axios';
+import {BACKEND_URL} from './constants';
 
 function App() {
-    const dispatch = useDispatch();
+    const userCredentials = useCredentials();
+    const [todos, dispatch] = useReducer(todoReducer, {pros: [], cons: []});
 
-    const todos = useSelector(state => state.todos.todosList);
-    const userCredentials = useSelector(state => state.todos.user);
-
-    const getUserId = async () => await AXIOS.get(`${BACKEND_URL}/user/norayr_ghukasyan`);
-    const getGroupId = async () => await AXIOS.get(`${BACKEND_URL}/group/norayr_ghukasyan`);
-
-    useEffect(() => {
-        const getUserCredentials = async () => {
-            const [user, group] = await Promise.all([getUserId(), getGroupId()]);
-            dispatch(setUserCredentials({userId: user.data.userId, groupId: group.data.groupId}));
-        };
-
-        getUserCredentials();
-    }, [dispatch]);
+    const fetchAllTodos = async (groupId, userId) => {
+        const response = await AXIOS.get(`${BACKEND_URL}/proscons/group/${groupId}/user/${userId}`);
+        dispatch({type: 'SET_ALL_TODOS', payload: response.data});
+    };
 
     useDeepCompareEffect(() => {
         const {userId, groupId} = userCredentials;
-        if (userId && groupId) dispatch(getTodosListRequest({userId, groupId}));
+        if (userId && groupId) fetchAllTodos(groupId, userId);
     }, [userCredentials]);
 
     return (
-        <div className='main-wrapper'>
-            <div className='homepage'>
-                <header className='main-header'>
-                    <h1>Should I ... ?</h1>
-                </header>
-                <main>
-                    <TodoSection todos={todos} />
-                </main>
+        <GlobalContextProvider values={{todos, userCredentials, dispatch}}>
+            <div className='main-wrapper'>
+                <div className='homepage'>
+                    <header className='main-header'>
+                        <h1>Should I ... ?</h1>
+                    </header>
+                    <main>
+                        <TodoSection />
+                    </main>
+                </div>
+                <Alert contentTemplate={AlertTemplate} stack={{limit: 1}} />
             </div>
-            <Alert contentTemplate={AlertTemplate} stack={{limit: 1}} />
-        </div>
+        </GlobalContextProvider>
     );
 }
 

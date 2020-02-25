@@ -1,10 +1,8 @@
 /* eslint-disable max-len */
 import {useState} from 'react';
-import {useDispatch} from 'react-redux';
 import _ from 'lodash';
 
 const useForm = ({action = () => {}, initialState, formValidator = () => {}}) => {
-    const dispatch = useDispatch();
     const [inputs, setInputs] = useState(initialState);
     const [initVals, setInitVals] = useState({});
     const [pristine, setPristine] = useState(true);
@@ -25,21 +23,21 @@ const useForm = ({action = () => {}, initialState, formValidator = () => {}}) =>
         }
     };
 
-    const handleSubmit = e => {
-        if (e) {
-            e.preventDefault();
-            e.stopPropagation();
-        }
+    // const handleSubmit = e => {
+    //     if (e) {
+    //         e.preventDefault();
+    //         e.stopPropagation();
+    //     }
 
-        const errors = formValidator(inputs);
+    //     const errors = formValidator(inputs);
 
-        if (!_.isEmpty(errors)) {
-            setErrors(errors);
-            return false;
-        }
+    //     if (!_.isEmpty(errors)) {
+    //         setErrors(errors);
+    //         return false;
+    //     }
 
-        dispatch(action(inputs));
-    };
+    //     dispatch(action(inputs));
+    // };
 
     const checkIfPristine = (name, value) => {
         if (typeof value !== 'object') return setPristine(value === initVals[name]);
@@ -96,7 +94,6 @@ const useForm = ({action = () => {}, initialState, formValidator = () => {}}) =>
     const resetForm = () => setInputs(initialState);
 
     return {
-        handleSubmit,
         handleFieldChange,
         boundHandleFieldChange,
         inputs,

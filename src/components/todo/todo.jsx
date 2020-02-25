@@ -1,13 +1,13 @@
-import React, {useState} from 'react';
-import {useDispatch} from 'react-redux';
+import React, {useState, useContext} from 'react';
 import InputWithValidation from '../core/form/input-with-validation';
 import Button from '../core/button';
 import {MdDelete} from 'react-icons/md';
 import Modal from 'react-modal';
-import {deleteTodoRequest, editTodoRequest} from '../../redux/actions';
-import useForm from '../../services/custom-hooks';
+import {useForm} from '../../services/custom-hooks';
 import {todoValidator} from '../../services/validators';
 import {isEmpty} from 'ramda';
+import {GlobalContext} from '../../services/contexts/global';
+import {editTodoRequest, deleteTodoRequest} from './actions';
 
 Modal.setAppElement('#root');
 
@@ -24,10 +24,12 @@ const customStyles = {
 };
 
 const Todo = ({name, id, type}) => {
+    const {userCredentials, todos, dispatch} = useContext(GlobalContext);
+    const {groupId, userId} = userCredentials;
+
     const initialState = {
         todo: '',
     };
-    const dispatch = useDispatch();
     const {inputs, boundHandleFieldChange, initializeFields, generateError, errors} = useForm({initialState});
 
     const [isFocused, setFocused] = useState(false);
@@ -39,7 +41,7 @@ const Todo = ({name, id, type}) => {
         const errors = todoValidator({todo: inputs['todo']});
 
         if (isEmpty(errors)) {
-            dispatch(editTodoRequest({todo: inputs['todo'], type, id}));
+            editTodoRequest({todo: inputs['todo'], type, id}, {todos, groupId, userId, dispatch});
             setFocused(false);
         } else {
             generateError(errors);
@@ -49,6 +51,11 @@ const Todo = ({name, id, type}) => {
     const handleToggleFields = () => {
         initializeFields({todo: name});
         setFocused(true);
+    };
+
+    const handleDeleteTodo = () => {
+        deleteTodoRequest({id, type}, {todos, groupId, userId, dispatch});
+        handleToggleModal();
     };
 
     const renderTodo = focused => {
@@ -72,11 +79,6 @@ const Todo = ({name, id, type}) => {
                 <Button type='button' isPrimaryButton={true} icon={<MdDelete />} onClick={handleToggleModal} />
             </>
         );
-    };
-
-    const handleDeleteTodo = () => {
-        dispatch(deleteTodoRequest({id, type}));
-        handleToggleModal();
     };
 
     return (
