@@ -1,0 +1,13 @@
+.alert-notify {
+    border-radius: 0.5rem;
+    font-size: 1.3rem !important;
+    padding: 2rem;
+    position: fixed;
+    right: 0.5rem;
+    top: 4.4rem;
+    width: 25.6rem;
+
+    > .ui-pnotify-title {
+        margin-bottom: 1rem;
+    }
+}

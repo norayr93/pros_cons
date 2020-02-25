@@ -1,0 +1,13 @@
+.main-wrapper {
+    background: $main-bg;
+    height: 100vh;
+}
+
+.homepage {
+    @extend %absolute-centering;
+}
+
+.main-header {
+    padding: 3rem 0;
+    text-align: center;
+}

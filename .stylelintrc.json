@@ -7,6 +7,6 @@
         "scss/selector-no-redundant-nesting-selector": true,
         "max-empty-lines": 2,
         "block-no-empty": true,
-        "at-rule-no-unknown": [true, {"ignoreAtRules": ["include", "if", "function"]}]
+        "at-rule-no-unknown": [true, {"ignoreAtRules": ["include", "if", "function", "extend", "mixin"]}]
     }
 }

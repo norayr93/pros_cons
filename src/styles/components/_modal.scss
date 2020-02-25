@@ -1,0 +1,43 @@
+.ReactModal__Content {
+    @include main-flex(center, center, wrap);
+
+    background: white;
+    border-radius: 4px;
+    bottom: auto;
+    height: 300px;
+    left: 50% !important;
+    margin-right: 50%;
+    right: auto;
+    top: 50% !important;
+    transform: translate(-50%, -50%);
+    width: 300px;
+}
+
+.ReactModal__Overlay {
+    background-color: rgba(47, 43, 43, 0.75) !important;
+}
+
+.modal {
+    height: 100%;
+    width: 100%;
+
+    @include main-flex($fl-dir: column);
+
+    > header {
+        margin-top: 8rem;
+        padding: 0 2rem;
+        text-align: center;
+    }
+
+    > div {
+        @include main-flex(flex-end);
+
+        margin-bottom: 1rem;
+        margin-top: auto;
+        padding: 2rem;
+
+        > button {
+            margin-left: 2rem;
+        }
+    }
+}

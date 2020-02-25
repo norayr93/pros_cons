@@ -1,0 +1,44 @@
+.todos {
+    @include main-flex(center);
+
+    min-height: 60rem;
+
+    &__cons,
+    &__pros {
+        border: 2px solid black;
+        width: 40rem;
+
+        @include main-flex($fl-dir: column);
+
+        > header {
+            border-bottom: 2px solid black;
+            padding: 10px;
+        }
+    }
+
+    &__pros {
+        border-right: none;
+    }
+
+    &__action-box {
+        margin-top: auto;
+        padding: 2rem;
+
+        @include main-flex($fl-jst-cnt: space-between, $fl-align-items: center);
+    }
+
+    &__list {
+        margin-top: 2rem;
+    }
+}
+
+.todo {
+    height: 4rem;
+    padding-left: 1rem;
+
+    @include main-flex(space-between, center);
+
+    > span {
+        padding: 1.5rem 1rem;
+    }
+}

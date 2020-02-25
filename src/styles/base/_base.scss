@@ -1,0 +1,47 @@
+*,
+*::before,
+*::after {
+    box-sizing: inherit;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 62.5%; // 1rem = 10px; 10px/16px = 62.5%
+
+    @include respond(tab-land) {
+        // width < 1200?
+        font-size: 56.25%; // 1rem = 9px, 9/16 = 50%
+    }
+
+    @include respond(tab-port) {
+        // width < 900?
+        font-size: 50%; // 1rem = 8px, 8/16 = 50%
+    }
+
+    @include respond(phone) {
+        font-size: 43.75%; // 1rem = 7px, 7/16 = 43.75%
+    }
+
+    @include respond(big-desktop) {
+        font-size: 75%; // 1rem = 12, 12/16
+    }
+}
+
+body {
+    box-sizing: border-box !important;
+    color: black;
+    font-family: $primary-font;
+    font-size: calc(#{$default-font-size} + 6px) !important;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1.8rem;
+}
+
+li {
+    list-style-type: none;
+}
+
+a {
+    text-decoration: none;
+}

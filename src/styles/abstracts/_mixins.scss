@@ -1,0 +1,54 @@
+// MEDIA QUERY MANAGER
+
+/*
+0 - 600px:      Phone
+600 - 900px:    Tablet portrait
+900 - 1200px:   Tablet landscape
+[1200 - 1800] is where our normal styles apply
+1800px + :      Big desktop
+
+$breakpoint arguement choices:
+- phone
+- tab-port
+- tab-land
+- big-desktop
+
+1em = 16px  in Media queries 'em' and 'rem' always counts from browser default font-size
+*/
+@mixin respond($breakpoint) {
+    @if $breakpoint == phone {
+        @media only screen and (max-width: 37.5em) {
+            @content;
+        } //600px
+    }
+
+    @if $breakpoint == tab-port {
+        @media only screen and (max-width: 56.25em) {
+            @content;
+        } //900px
+    }
+
+    @if $breakpoint == tab-land {
+        @media only screen and (max-width: 75em) {
+            @content;
+        } //1200px
+    }
+
+    @if $breakpoint == big-desktop {
+        @media only screen and (min-width: 112.5em) {
+            @content;
+        } //1800
+    }
+}
+
+/*
+* Custom style mixins
+*/
+
+@mixin main-flex($fl-jst-cnt: null, $fl-align-items: null, $fl-wr: null, $fl-dir: null) {
+    align-items: $fl-align-items;
+    display: flex;
+    flex-direction: $fl-dir;
+    flex-wrap: $fl-wr;
+    justify-content: $fl-jst-cnt;
+}
