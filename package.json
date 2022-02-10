@@ -11,7 +11,7 @@
         "i18next-browser-languagedetector": "^4.0.2",
         "lodash": "^4.17.15",
         "moment": "^2.24.0",
-        "node-sass": "^4.13.1",
+        "node-sass": "^7.0.0",
         "postcss-scss": "^2.0.0",
         "ramda": "^0.27.0",
         "react": "^16.12.0",
